@@ -2,6 +2,8 @@ package sube.interviews.mareoenvios.model;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -23,14 +25,13 @@ public class Customer {
     @Column(name="city", nullable = false)
     private String city;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Shipping> shippings;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    private List<Shipping> shippings = new ArrayList<>();
 
     public Customer() {
     }
 
-    public Customer(Long id, String first_name, String last_name, String address, String city, List<Shipping> shippings) {
-        this.id = id;
+    public Customer(String first_name, String last_name, String address, String city, List<Shipping> shippings) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.address = address;

@@ -1,5 +1,6 @@
 package sube.interviews.mareoenvios.controller;
 
+import sube.interviews.mareoenvios.DTO.CustomerDTO;
 import sube.interviews.mareoenvios.repository.CustomerRepository;
 import sube.interviews.mareoenvios.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,9 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable(value = "id") Long customerId) {
+    public CustomerDTO getCustomerById(@PathVariable(value = "id") Long customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
-        if (customer == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(customer);
+        assert customer != null;
+        return new CustomerDTO(customer);
     }
 }

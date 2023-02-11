@@ -16,7 +16,7 @@ public class Product {
     @Column(name = "weight", nullable = false)
     private double weight;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ShippingItem> shipping_items;
 
     public Product() {

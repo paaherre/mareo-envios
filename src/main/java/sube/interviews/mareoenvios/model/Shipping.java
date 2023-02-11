@@ -2,6 +2,7 @@ package sube.interviews.mareoenvios.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="shipping")
@@ -27,6 +28,9 @@ public class Shipping {
     @Column(name = "priority")
     private int priority;
 
+    @OneToMany(mappedBy = "shipping", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShippingItem> shipping_items;
+
     public Shipping() {
     }
 
@@ -36,6 +40,14 @@ public class Shipping {
         this.send_date = send_date;
         this.arrive_date = arrive_date;
         this.priority = priority;
+    }
+
+    public List<ShippingItem> getShipping_items() {
+        return shipping_items;
+    }
+
+    public void setShipping_items(List<ShippingItem> shipping_items) {
+        this.shipping_items = shipping_items;
     }
 
     public Long getId() {

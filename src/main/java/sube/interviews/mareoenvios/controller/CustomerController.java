@@ -18,9 +18,11 @@ public class CustomerController {
     private CustomerRepository customerRepository;
 
     @GetMapping("/{id}")
-    public CustomerDTO getCustomerById(@PathVariable(value = "id") Long customerId) {
-        Customer customer = customerRepository.findById(customerId).orElse(null);
-        assert customer != null;
-        return new CustomerDTO(customer);
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable(value = "id") Long customerId) {
+        CustomerDTO customerDTO = customerRepository.findById(customerId).map(CustomerDTO::new).orElse(null);
+        if(customerDTO == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(customerDTO);
     }
 }

@@ -1,5 +1,7 @@
 package sube.interviews.mareoenvios.controller;
+import sube.interviews.mareoenvios.DTO.ShippingDTO;
 import sube.interviews.mareoenvios.DTO.ShippingTransitionDTO;
+import sube.interviews.mareoenvios.exception.InvalidShippingStateException;
 import sube.interviews.mareoenvios.repository.ShippingRepository;
 import sube.interviews.mareoenvios.model.Shipping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +21,22 @@ public class ShippingController {
     private ShippingService shippingService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Shipping> getShippingById(@PathVariable(value = "id") Long shippingId){
-        Shipping shipping = shippingRepository.findById(shippingId).orElse(null);
-        if( shipping == null){
+    public ResponseEntity<ShippingDTO> getShippingById(@PathVariable(value = "id") Long shippingId){
+        ShippingDTO shippingDTO = shippingRepository.findById(shippingId).map(ShippingDTO::new).orElse(null);
+        if( shippingDTO == null){
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok().body(shipping);
+        return ResponseEntity.ok().body(shippingDTO);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Shipping> updateShipping(@PathVariable(value = "id") Long shippingId,
-                                                   @RequestBody ShippingTransitionDTO shippingTransition) throws InvalidPropertiesFormatException {
-        Shipping shipping = shippingRepository.findById(shippingId).orElse(null);
-        if( shipping == null) {
+    public ResponseEntity<ShippingDTO> updateShipping(@PathVariable(value = "id") Long shippingId,
+                                                   @RequestBody ShippingTransitionDTO shippingTransition) throws InvalidPropertiesFormatException, InvalidShippingStateException {
+        Shipping shippingDTO = shippingRepository.findById(shippingId).orElse(null);
+        if( shippingDTO == null) {
             return ResponseEntity.notFound().build();
         }
-        shippingService.shippingTransition(shipping, shippingTransition);
+        shippingService.shippingTransition(shippingDTO, shippingTransition);
         return ResponseEntity.ok().build();
 
     }

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class CustomerDTO {
-    private Long id;
-    private String first_name;
-    private String last_name;
-    private String address;
-    private String city;
-    private List<ShippingDTO> shippings;
+public class CustomerDTO implements Serializable {
+    private final Long id;
+    private final String first_name;
+    private final String last_name;
+    private final String address;
+    private final String city;
+    private final List<ShippingDTO> shippings;
 
     public CustomerDTO(Customer customer) {
         this.id = customer.getId();
@@ -28,47 +28,52 @@ public class CustomerDTO {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getFirst_name() {
         return first_name;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
     }
 
     public String getLast_name() {
         return last_name;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public String getCity() {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public List<ShippingDTO> getShippings() {
         return shippings;
     }
 
-    public void setShippings(List<ShippingDTO> shippings) {
-        this.shippings = shippings;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CustomerDTO entity = (CustomerDTO) o;
+        return Objects.equals(this.id, entity.id) &&
+                Objects.equals(this.first_name, entity.first_name) &&
+                Objects.equals(this.last_name, entity.last_name) &&
+                Objects.equals(this.address, entity.address) &&
+                Objects.equals(this.city, entity.city) &&
+                Objects.equals(this.shippings, entity.shippings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, first_name, last_name, address, city, shippings);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "id = " + id + ", " +
+                "first_name = " + first_name + ", " +
+                "last_name = " + last_name + ", " +
+                "address = " + address + ", " +
+                "city = " + city + ", " +
+                "shippings = " + shippings + ")";
     }
 }

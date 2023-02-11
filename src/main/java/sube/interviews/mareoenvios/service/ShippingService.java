@@ -27,9 +27,8 @@ public class ShippingService {
             this.updateShippingState(shipping.getId(), state);
 
         } else {
-            throw new InvalidShippingStateException("No es posible realizar transición de estado a "+ shippingTransition.getTransition());
+            throw new InvalidShippingStateException("El envío actualmente está en "+ shipping.getShippingState()+", no puede cambiar a " + shippingTransition.getTransition());
         }
-
     }
 
     public void updateShippingState(Long id, ShippingState shippingState) {
